@@ -1,6 +1,7 @@
 <img src="docs/images/logo/logo-with-title.png" alt="take-a-hint" height="200px">
 
-[![Build Status](https://travis-ci.org/tahabasri/take-a-hint.svg?branch=master)](https://travis-ci.org/github/tahabasri/take-a-hint) 
+[![Build Status](https://travis-ci.org/tahabasri/take-a-hint.svg?branch=master)](https://travis-ci.org/github/tahabasri/take-a-hint)
+[![codecov](https://codecov.io/gh/tahabasri/take-a-hint/branch/master/graph/badge.svg)](https://codecov.io/gh/tahabasri/take-a-hint)
 
 # take-a-hint
 Give final users hints when getting error messages without the need of documentation.
