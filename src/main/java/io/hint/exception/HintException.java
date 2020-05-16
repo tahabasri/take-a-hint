@@ -16,7 +16,7 @@
 package io.hint.exception;
 
 public class HintException extends Exception implements HintThrowable {
-    private HintMsgsBox msgsBox;
+    private final HintMsgsBox msgsBox;
 
     public static HintException of(Throwable cause){
         return new HintException(cause, "", "");

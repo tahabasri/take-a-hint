@@ -22,17 +22,22 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface HintHandler {
-    boolean showHints() default true;
-
+public @interface Hint {
+    // flags
     boolean showStackTrace() default false;
 
-    String defaultExceptionMessage() default "Application failed with exception : ";
+    boolean showHints() default true;
+
+    // default messages
+    String defaultExceptionMessage() default "Application failed with exception ";
 
     String defaultDocsMessage() default "See the docs for details : ";
 
-    String docsUrl() default "";
+    int defaultExitCode() default 1;
 
+    // http://dplatz.de/blog/2019/emojis-for-java-commandline.html
+
+    // prefixes
     String hintPrefix() default "\u2705 hints:";
 
     String errorPrefix() default "\u274C error:";
@@ -41,9 +46,11 @@ public @interface HintHandler {
 
     String docsPrefix() default "\u2754 usage:";
 
-    String defaultSeparator() default "\t";
-
+    // separators
     String defaultDocsSeparator() default "---";
 
-    int defaultExitCode() default 1;
+    String defaultSeparator() default "\t";
+
+    // misc
+    String docsUrl() default "";
 }

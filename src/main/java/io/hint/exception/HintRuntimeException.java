@@ -16,7 +16,7 @@
 package io.hint.exception;
 
 public class HintRuntimeException extends RuntimeException implements HintThrowable {
-    private HintMsgsBox msgsBox;
+    private final HintMsgsBox msgsBox;
 
     public static HintRuntimeException of(Throwable cause){
         return new HintRuntimeException(cause, "", "");

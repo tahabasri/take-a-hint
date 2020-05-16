@@ -17,16 +17,15 @@ package io.hint;
 
 import io.hint.annotation.HintMessage;
 import io.hint.exception.HintThrowable;
-
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.stream.Stream;
 
-public class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
-    private Hint hintProperties;
+class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
+    private final HintCommand hintCommandProperties;
 
-    public HintExceptionHandler(Hint hintProperties) {
-        this.hintProperties = hintProperties;
+    public HintExceptionHandler(HintCommand hintCommandProperties) {
+        this.hintCommandProperties = hintCommandProperties;
     }
 
     public void uncaughtException(Thread thread, Throwable e) {
@@ -104,7 +103,7 @@ public class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
         // use default global error message
         if (isBlank(errorMsg)) {
             // get value for default message from properties
-            final String prefixThrowableMsg = hintProperties.getDefaultExceptionMessage();
+            final String prefixThrowableMsg = hintCommandProperties.getDefaultExceptionMessage();
             // use either original exception class name or default exception detailMessage as final error message
             errorMsg = String.format(prefixThrowableMsg + "%s",
                     isBlank(e.getMessage()) ? t.getClass().getName() : e.getMessage());
@@ -114,15 +113,15 @@ public class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
         PrintStream sysErr = System.err;
 
         // retrieve prefix properties (prefix value for [error|hints|docs] + default separator)
-        final String errorPrefix = hintProperties.getErrorPrefix() + hintProperties.getDefaultSeparator();
-        final String hintsPrefix = hintProperties.getHintPrefix() + hintProperties.getDefaultSeparator();
-        final String docsPrefix = hintProperties.getDocsPrefix() + hintProperties.getDefaultSeparator();
+        final String errorPrefix = hintCommandProperties.getErrorPrefix() + hintCommandProperties.getDefaultSeparator();
+        final String hintsPrefix = hintCommandProperties.getHintPrefix() + hintCommandProperties.getDefaultSeparator();
+        final String docsPrefix = hintCommandProperties.getDocsPrefix() + hintCommandProperties.getDefaultSeparator();
 
         // print error message to stream
         sysErr.println(resolveMsg(errorPrefix, errorMsg));
 
         // show hints on-demand
-        if (hintProperties.canShowHints()) {
+        if (hintCommandProperties.canShowHints()) {
             // if no hints message was explicitly set (e.g given a non custom exception),
             // opt for default hint message (retrieved using annotations in original method throwing handled exception)
             if (isBlank(hintsMsg)) {
@@ -136,30 +135,30 @@ public class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
         }
 
         // if there is a URL for docs, append it as hints message
-        if (!isBlank(hintProperties.getDocsUrl())) {
+        if (!isBlank(hintCommandProperties.getDocsUrl())) {
             final String docsMsg =
-                    (isBlank(hintProperties.getDefaultDocsSeparator())
+                    (isBlank(hintCommandProperties.getDefaultDocsSeparator())
                             ? ""
-                            : hintProperties.getDefaultDocsSeparator().concat("\n"))
-                            .concat(hintProperties.getDefaultDocsMessage().concat(hintProperties.getDocsUrl()));
+                            : hintCommandProperties.getDefaultDocsSeparator().concat("\n"))
+                            .concat(hintCommandProperties.getDefaultDocsMessage().concat(hintCommandProperties.getDocsUrl()));
 
             // show docs message
             sysErr.println(resolveMsg(docsPrefix, docsMsg, false));
         }
 
         // show stacktrace on-demand
-        if (hintProperties.canShowStackTrace()) {
+        if (hintCommandProperties.canShowStackTrace()) {
             sysErr.println();
             // use custom PrintStream to add custom prefix + separator
             t.printStackTrace(
                     new WrappedPrintStream(sysErr,
-                            hintProperties.getStackPrefix(),
-                            hintProperties.getDefaultSeparator()));
+                            hintCommandProperties.getStackPrefix(),
+                            hintCommandProperties.getDefaultSeparator()));
         }
 
         // change default exit code on-demand
-        if (hintProperties.getDefaultExitCode() != 1) {
-            System.exit(hintProperties.getDefaultExitCode());
+        if (hintCommandProperties.getDefaultExitCode() != 1) {
+            System.exit(hintCommandProperties.getDefaultExitCode());
         }
     }
 

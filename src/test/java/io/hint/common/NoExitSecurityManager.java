@@ -13,22 +13,30 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package io.hint.exception;
+package io.hint.common;
 
-class HintMsgsBox {
-    private final String hintsMsg;
-    private final String customErrorMsg;
+import java.security.Permission;
 
-    HintMsgsBox(String hintsMsg, String customErrorMsg) {
-        this.hintsMsg = hintsMsg;
-        this.customErrorMsg = customErrorMsg;
+public class NoExitSecurityManager extends SecurityManager {
+    @Override
+    public void checkPermission(Permission perm) {
     }
 
-    String getHintsMsg() {
-        return hintsMsg;
+    @Override
+    public void checkPermission(Permission perm, Object context) {
     }
 
-    String getCustomErrorMsg() {
-        return customErrorMsg;
+    @Override
+    public void checkExit(int status) {
+        super.checkExit(status);
+        throw new ExitException(status);
+    }
+
+    public static class ExitException extends SecurityException {
+        public final int status;
+
+        public ExitException(int status) {
+            this.status = status;
+        }
     }
 }
