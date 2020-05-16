@@ -25,13 +25,13 @@ class HintCommonsTest extends HintTest {
     @Test
     void testDefaultBehaviorWithoutHint() {
         final String errMsg = "Oxygen leak !!!";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
         try {
-            new SpaceShip().goToMars();
+            new Spaceship().goToMars();
         } catch (IllegalStateException ex) {
             assertEquals(errMsg, ex.getMessage());
         }
@@ -40,12 +40,12 @@ class HintCommonsTest extends HintTest {
     @Test
     void testDefaultBehaviorWithHint() {
         final String errMsg = "Oxygen leak !!!";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -62,12 +62,12 @@ class HintCommonsTest extends HintTest {
     @Test
     void testCustomErrorPrefix() {
         final String errorMsg = "Error message";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw HintRuntimeException.of(new IllegalStateException("Oxygen leak !!!"), "", errorMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .showHints(false);

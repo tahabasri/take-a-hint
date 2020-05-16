@@ -28,12 +28,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
     void testDefaultBehaviorWithHint() {
         final String errMsg = "Oxygen leak !!!";
         @Hint
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -52,12 +52,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String errMsg = "Oxygen leak !!!";
 
         @Hint(showHints = false)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw HintRuntimeException.of(new IllegalStateException(errMsg), "A hint message");
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -76,15 +76,15 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String errMsg = "Oxygen leak !!!";
 
         @Hint(showStackTrace = true)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
-            new SpaceShip().goToMars();
+            new Spaceship().goToMars();
         } catch (IllegalStateException ex) {
             String expectedMsg = "\n" + ht.getErrorPrefix()
                     + ht.getDefaultSeparator()
@@ -104,12 +104,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String defaultMsg = "This is the default error : ";
 
         @Hint(defaultExceptionMessage = defaultMsg)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -130,12 +130,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String defaultMsg = "This is the default docs msg : ";
 
         @Hint(docsUrl = docsUrl, defaultDocsMessage = defaultMsg)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -155,12 +155,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final int exitCode = 2000;
 
         @Hint(defaultExitCode = exitCode)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
 
         System.setSecurityManager(new NoExitSecurityManager());
@@ -183,12 +183,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String hintMsg = "Hint message";
 
         @Hint(hintPrefix = hintPrefix)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw HintRuntimeException.of(new IllegalStateException(errMsg), hintMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -208,12 +208,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String errorPrefix = "EPrefix";
 
         @Hint(errorPrefix = errorPrefix)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -232,12 +232,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String stackPrefix = "SPrefix";
 
         @Hint(showStackTrace = true, stackPrefix = stackPrefix)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -261,12 +261,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String docsUrl = "http://github.com";
 
         @Hint(docsUrl = docsUrl, docsPrefix = docsPrefix)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -287,12 +287,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String defaultSep = "~~~";
 
         @Hint(showStackTrace = true, defaultSeparator = defaultSep)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -316,12 +316,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String defaultDocsSeparator = "~~~";
 
         @Hint(docsUrl = docsUrl, defaultDocsSeparator = defaultDocsSeparator)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -342,12 +342,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String docsUrl = "http://github.com";
 
         @Hint(docsUrl = docsUrl)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -368,13 +368,13 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
         final String hintMsg = "Default hint message";
 
         @Hint
-        class SpaceShip {
+        class Spaceship {
             @HintMessage(hintMsg)
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -395,12 +395,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
 
         @Hint
         @HintMessage(hintMsg)
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -421,13 +421,13 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
 
         @Hint
         @HintMessage("another Hint Message")
-        class SpaceShip {
+        class Spaceship {
             @HintMessage(hintMsg)
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht = new HintCommand(spaceShip);
         try {
             spaceShip.goToMars();
@@ -471,12 +471,12 @@ class HintExceptionHandlerWithAnnotationsTest extends HintTest {
                 defaultSeparator = "anotherDefaultSeparator",
                 docsUrl = "anotherDocsUrl"
         )
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw HintRuntimeException.of(new IllegalStateException(errMsg), hintMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .showHints(true)

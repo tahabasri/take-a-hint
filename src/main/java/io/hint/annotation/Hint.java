@@ -29,7 +29,7 @@ public @interface Hint {
     boolean showHints() default true;
 
     // default messages
-    String defaultExceptionMessage() default "Application failed with exception ";
+    String defaultExceptionMessage() default "Application failed with exception : ";
 
     String defaultDocsMessage() default "See the docs for details : ";
 

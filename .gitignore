@@ -25,5 +25,10 @@ hs_err_pid*
 # Intellij
 .idea
 *.iml
-out/
 target/
+
+# Eclipse
+out/
+.settings
+.classpath
+.project

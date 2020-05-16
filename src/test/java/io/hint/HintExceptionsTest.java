@@ -24,8 +24,8 @@ class HintExceptionsTest {
 
     @Test
     void testDefaultUncaughtExceptionHandler() {
-        class SpaceShip {}
-        new HintCommand(new SpaceShip()).init();
+        class Spaceship {}
+        new HintCommand(new Spaceship()).init();
         Thread.UncaughtExceptionHandler exceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         assertTrue(exceptionHandler instanceof HintExceptionHandler);
     }

@@ -26,12 +26,12 @@ class HintExceptionHandlerTest extends HintTest {
     @Test
     void testDisableShowHints() {
         final String errMsg = "Oxygen leak !!!";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw HintRuntimeException.of(new IllegalStateException(errMsg), "A hint message");
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip).showHints(false);
         try {
@@ -49,16 +49,16 @@ class HintExceptionHandlerTest extends HintTest {
     @Test
     void testShowStackTrace() {
         final String errMsg = "Oxygen leak !!!";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip).showStackTrace(true);
         try {
-            new SpaceShip().goToMars();
+            new Spaceship().goToMars();
         } catch (IllegalStateException ex) {
             String expectedMsg = "\n" + ht.getErrorPrefix()
                     + ht.getDefaultSeparator()
@@ -76,12 +76,12 @@ class HintExceptionHandlerTest extends HintTest {
     void testDefaultExceptionMessage() {
         final String errMsg = "Oxygen leak !!!";
         final String defaultMsg = "This is the default error : ";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .defaultExceptionMessage(defaultMsg);
@@ -102,12 +102,12 @@ class HintExceptionHandlerTest extends HintTest {
         final String errMsg = "Oxygen leak !!!";
         final String docsUrl = "http://github.com";
         final String defaultMsg = "This is the default docs msg : ";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .docsUrl(docsUrl)
@@ -128,12 +128,12 @@ class HintExceptionHandlerTest extends HintTest {
     void testDefaultExitCode() {
         final String errMsg = "Oxygen leak !!!";
         int exitCode = 2000;
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .defaultExitCode(exitCode);
@@ -156,12 +156,12 @@ class HintExceptionHandlerTest extends HintTest {
         final String errMsg = "Oxygen leak !!!";
         final String hintPrefix = "HPrefix";
         final String hintMsg = "Hint message";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw HintRuntimeException.of(new IllegalStateException(errMsg), hintMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .hintPrefix(hintPrefix);
@@ -181,12 +181,12 @@ class HintExceptionHandlerTest extends HintTest {
     void testErrorPrefix() {
         final String errMsg = "Oxygen leak !!!";
         final String errorPrefix = "EPrefix";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .errorPrefix(errorPrefix);
@@ -205,12 +205,12 @@ class HintExceptionHandlerTest extends HintTest {
     void testStackPrefix() {
         final String errMsg = "Oxygen leak !!!";
         final String stackPrefix = "SPrefix";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .showStackTrace(true)
@@ -235,12 +235,12 @@ class HintExceptionHandlerTest extends HintTest {
         final String errMsg = "Oxygen leak !!!";
         final String docsPrefix = "DPrefix";
         final String docsUrl = "http://github.com";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .docsUrl(docsUrl)
@@ -262,12 +262,12 @@ class HintExceptionHandlerTest extends HintTest {
     void testDefaultSeparator() {
         final String errMsg = "Oxygen leak !!!";
         final String defaultSep = "~~~";
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .showStackTrace(true)
@@ -293,12 +293,12 @@ class HintExceptionHandlerTest extends HintTest {
         final String docsUrl = "http://github.com";
         final String defaultDocsSeparator = "~~~";
 
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .docsUrl(docsUrl)
@@ -321,12 +321,12 @@ class HintExceptionHandlerTest extends HintTest {
         final String errMsg = "Oxygen leak !!!";
         final String docsUrl = "http://github.com";
 
-        class SpaceShip {
+        class Spaceship {
             private void goToMars() {
                 throw new IllegalStateException(errMsg);
             }
         }
-        SpaceShip spaceShip = new SpaceShip();
+        Spaceship spaceShip = new Spaceship();
         HintCommand ht =
                 new HintCommand(spaceShip)
                         .docsUrl(docsUrl);
