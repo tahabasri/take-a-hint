@@ -32,3 +32,6 @@ out/
 .settings
 .classpath
 .project
+
+# VSCODE
+.vscode
