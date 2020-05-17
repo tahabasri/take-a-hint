@@ -3,6 +3,10 @@ jdk: openjdk8
 cache:
     directories:
     - $HOME/.m2
+# codecov
+install:
+    - pip install --user codecov
 script: mvn install
+# publish tests reports
 after_success:
-    - bash <(curl -s https://codecov.io/bash) -v
+    - codecov
