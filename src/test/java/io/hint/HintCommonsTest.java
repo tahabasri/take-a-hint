@@ -83,6 +83,13 @@ class HintCommonsTest extends HintTest {
     }
 
     @Test
+    void getSafeValue() {
+        class Spaceship{}
+        HintCommand ht = new HintCommand(new Spaceship()).defaultSeparator(null);
+        assertNotNull(ht.getDefaultSeparator());
+    }
+
+    @Test
     void isBlank() {
         assertTrue(HintExceptionHandler.isBlank(null));
         assertTrue(HintExceptionHandler.isBlank(""));
