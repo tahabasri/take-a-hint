@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/tahabasri/take-a-hint.svg?branch=master)](https://travis-ci.org/github/tahabasri/take-a-hint)
 [![codecov](https://codecov.io/gh/tahabasri/take-a-hint/branch/master/graph/badge.svg)](https://codecov.io/gh/tahabasri/take-a-hint)
+[![Follow @TheTahaBasri](https://img.shields.io/twitter/follow/TheTahaBasri.svg?style=social)](https://twitter.com/intent/follow?screen_name=TheTahaBasri) 
+
 
 # take-a-hint
 Give final users hints when getting error messages without the need of documentation.
