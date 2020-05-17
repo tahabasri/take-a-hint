@@ -3,8 +3,8 @@ jdk: openjdk8
 cache:
     directories:
     - $HOME/.m2
-install:
-    - pip install --user codecov
-script: mvn install
+script:
+    - mvn install
+    - mvn cobertura:cobertura
 after_success:
     - bash <(curl -s https://codecov.io/bash) -v -f target/site/cobertura/coverage.xml
