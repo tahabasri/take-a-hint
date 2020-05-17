@@ -8,8 +8,24 @@
     <artifactId>take-a-hint</artifactId>
     <version>0.1-SNAPSHOT</version>
 
-    <name>Tiny framework for handling exceptions in CLI</name>
+    <name>take-a-hint - a tiny framework for handling exceptions in command line interface</name>
     <url>https://github.com/tahabasri/take-a-hint</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>tahabasri</id>
+            <name>Taha BASRI</name>
+            <email>tahabasri@hotmail.fr</email>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
