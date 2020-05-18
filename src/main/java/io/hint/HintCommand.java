@@ -17,8 +17,6 @@ package io.hint;
 
 import io.hint.annotation.Hint;
 
-// TODO add support for native-image
-
 @Hint
 public class HintCommand {
     // flags
