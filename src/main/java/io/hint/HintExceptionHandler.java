@@ -17,8 +17,11 @@ package io.hint;
 
 import io.hint.annotation.HintMessage;
 import io.hint.exception.HintThrowable;
+import io.hint.io.WrappedPrintStream;
+import io.hint.io.WrappedPrintWriter;
+import io.hint.io.WrappedPrinter;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.stream.Stream;
 
@@ -26,11 +29,16 @@ import java.util.stream.Stream;
  * Custom {@code UncaughtExceptionHandler} to be used by Hint in order to reformat exceptions messages
  * depending on specified configuration.
  */
-class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
+public class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
     private final HintCommand hintCommandProperties;
+    private PrintWriter printWriter;
 
-    HintExceptionHandler(HintCommand hintCommandProperties) {
+    public HintExceptionHandler(HintCommand hintCommandProperties) {
         this.hintCommandProperties = hintCommandProperties;
+    }
+
+    public void setPrintWriter(PrintWriter printWriter) {
+        this.printWriter = printWriter;
     }
 
     /**
@@ -139,8 +147,14 @@ class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
                     isBlank(e.getMessage()) ? t.getClass().getName() : e.getMessage());
         }
 
-        // use err output as main stream
-        PrintStream sysErr = System.err;
+        WrappedPrinter outPrinter;
+        if (printWriter != null) {
+            // use given writer as main writer
+            outPrinter = new WrappedPrintWriter(hintCommandProperties.getStackPrefix(), hintCommandProperties.getDefaultSeparator(), printWriter);
+        } else {
+            // use err output as main stream
+            outPrinter = new WrappedPrintStream(hintCommandProperties.getStackPrefix(), hintCommandProperties.getDefaultSeparator(), System.err);
+        }
 
         // retrieve prefix properties (prefix value for [error|hints|docs] + default separator)
         final String errorPrefix = hintCommandProperties.getErrorPrefix() + hintCommandProperties.getDefaultSeparator();
@@ -148,7 +162,7 @@ class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
         final String docsPrefix = hintCommandProperties.getDocsPrefix() + hintCommandProperties.getDefaultSeparator();
 
         // print error message to stream
-        sysErr.println(resolveMsg(errorPrefix, errorMsg));
+        outPrinter.println(resolveMsg(errorPrefix, errorMsg));
 
         // show hints on-demand
         if (hintCommandProperties.canShowHints()) {
@@ -160,7 +174,7 @@ class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
             // show hints if there is a valid value:
             // an explicit message or a default message retrieved from annotations
             if (!isBlank(hintsMsg)) {
-                sysErr.println(resolveMsg(hintsPrefix, hintsMsg));
+                outPrinter.println(resolveMsg(hintsPrefix, hintsMsg));
             }
         }
 
@@ -173,17 +187,19 @@ class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
                             .concat(hintCommandProperties.getDefaultDocsMessage().concat(hintCommandProperties.getDocsUrl()));
 
             // show docs message
-            sysErr.println(resolveMsg(docsPrefix, docsMsg, false));
+            outPrinter.println(resolveMsg(docsPrefix, docsMsg, false));
         }
 
         // show stacktrace on-demand
         if (hintCommandProperties.canShowStackTrace()) {
-            sysErr.println();
+            outPrinter.println();
             // use custom PrintStream to add custom prefix + separator
-            t.printStackTrace(
-                    new WrappedPrintStream(sysErr,
-                            hintCommandProperties.getStackPrefix(),
-                            hintCommandProperties.getDefaultSeparator()));
+            if (outPrinter instanceof WrappedPrintWriter) {
+                t.printStackTrace(((WrappedPrintWriter) outPrinter).getWrappingPrintWriter());
+            } else {
+                // use custom PrintStream to add custom prefix + separator
+                t.printStackTrace(((WrappedPrintStream) outPrinter).getWrappingPrintStream());
+            }
         }
 
         // change default exit code on-demand
@@ -204,24 +220,5 @@ class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
         final String lineSeparator = "\n";
         return (startWithLineBreak ? lineSeparator : "")
                 + prefix + msg.replace(lineSeparator, lineSeparator + prefix);
-    }
-
-    /**
-     * Wrapper of default PrintStream, to be used for setting a prefix before each line in stacktrace
-     */
-    static class WrappedPrintStream extends PrintStream {
-        private final String stackPrefix;
-        private final String separator;
-
-        WrappedPrintStream(PrintStream s, String stackPrefix, String separator) {
-            super(s);
-            this.stackPrefix = stackPrefix;
-            this.separator = separator;
-        }
-
-        @Override
-        public void println(Object o) {
-            super.println(stackPrefix + separator + o);
-        }
     }
 }
