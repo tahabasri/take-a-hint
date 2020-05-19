@@ -17,17 +17,47 @@ package io.hint;
 
 import io.hint.annotation.HintMessage;
 import io.hint.exception.HintThrowable;
+
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.stream.Stream;
 
+/**
+ * Custom {@code UncaughtExceptionHandler} to be used by Hint in order to reformat exceptions messages
+ * depending on specified configuration.
+ */
 class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
     private final HintCommand hintCommandProperties;
 
-    public HintExceptionHandler(HintCommand hintCommandProperties) {
+    HintExceptionHandler(HintCommand hintCommandProperties) {
         this.hintCommandProperties = hintCommandProperties;
     }
 
+    /**
+     * Instead of showing plain stacktrace as default behavior,
+     * we use this handler to parse configuration and behave depending on the given properties:
+     * <ul>
+     *     <li>If elements are annotated with {@code HintMessage}, extract values from them and use them as hints</li>
+     *     <li>If thrown exception is a supported type of {@code HintThrowable}, use original cause and extract
+     *     metadata (hints message and custom error message)</li>
+     *     <li>Show final output depending on the values in configuration for :
+     *      <ul>
+     *          <li>show/hide stacktrace</li>
+     *          <li>show/hide hints</li>
+     *          <li>sets default message for exception with no custom error message</li>
+     *          <li>set default separator to be used between messages</li>
+     *          <li>if enabled, show hint messages using a pre-defined prefix and custom hint message</li>
+     *          <li>show error messages using a pre-defined prefix</li>
+     *          <li>if enabled, show stacktrace using a pre-defined prefix</li>
+     *          <li>if a docs URL is specified, show documentation help message using pre-defined separator and prefix</li>
+     *          <li>if specified, exit application with custom exit code</li>
+     *      </ul>
+     *     </li>
+     * </ul>
+     *
+     * @param thread thread concerned by the custom exception handler
+     * @param e      throwable to be caught during exception handling
+     */
     public void uncaughtException(Thread thread, Throwable e) {
         if (e == null) {
             return;
@@ -176,6 +206,9 @@ class HintExceptionHandler implements Thread.UncaughtExceptionHandler {
                 + prefix + msg.replace(lineSeparator, lineSeparator + prefix);
     }
 
+    /**
+     * Wrapper of default PrintStream, to be used for setting a prefix before each line in stacktrace
+     */
     static class WrappedPrintStream extends PrintStream {
         private final String stackPrefix;
         private final String separator;

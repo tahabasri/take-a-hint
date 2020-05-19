@@ -51,3 +51,39 @@ Executing the same program again, we get a new look for our error message.
 Going further more with Hint options, your final error message can be improved to something like this:
 
 <img src="docs/images/demo.hint.after.extra.png" width="700">
+
+### How to use your own Emoji characters in your Java command-line application
+
+take-a-hint comes with pre-defined messages with a set of Emojis, you can change yours via the configuration:
+
+- via annotations, you can set your default prefix for error messages :
+```java
+import io.hint.annotation.Hint;
+
+@Hint(errorPrefix = "\u26D4 error :")
+class Spaceship{
+}
+```
+
+Your final message will be 
+```
+⛔ error :   Spaceship is no longer a ship!
+```
+
+- via programmatic API, you can achieve the same result via the following method:
+```java
+import io.hint.HintCommand;
+
+class Spaceship{
+    public static void main(String[] args){
+      new HintCommand(new Main()).errorPrefix("\u26D4 error :").init();
+    }
+}
+```
+
+To use a new Emoji, you can follow the steps bellow:
+- Visit [Full Emoji List, v13.0](https://unicode.org/emoji/charts/full-emoji-list.html) and find emoji to use.
+- Copy the code in `Code` column and make a search in 
+[fileformat.info](http://www.fileformat.info/info/unicode/char/search.htm) using the copied code as query string.
+- Click on the returned result (end of page) and copy the value for column `C/C++/Java source code`.
+- Put the value in your prefix string and recompile your program, it should show the new Emoji.

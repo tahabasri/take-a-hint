@@ -20,8 +20,41 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * <p>Use this annotation to set default hint message for a method or class.</p>
+ *
+ * <p>An example use case is when you have multiple changes to throw exceptions in same method,
+ * in addition, you would like to use the same hint message for all thrown exceptions in the same method.</p>
+ *
+ * <p>Given the following example:</p>
+ * <pre>
+ *     public class Spaceship{
+ *
+ *        {@code @HintMessage("Check the value for i")}
+ *         public void goToSpace(int i){
+ *             if(i==0){
+ *                 throw new RuntimeException("i is 0");
+ *             }else if (i==1){
+ *                 throw new RuntimeException("i = is 1");
+ *             }
+ *             ...
+ *         }
+ *     }
+ * </pre>
+ *
+ * <p>For each exception thrown in the method {@code goToSpace},
+ * the value in the annotation {@code HintMessage} will be used as default hint message.</p>
+ *
+ * <p>You can use this annotation at class level, each exception thrown at any method
+ * of the class will use the value in the global annotation at type level.</p>
+ *
+ * <p><b>Note: </b>Annotation at method level overrides its parent at class type.</p>
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface HintMessage {
+    /**
+     * Sets default message to show for each exception thrown at the annotated element.
+     */
     String value() default "";
 }

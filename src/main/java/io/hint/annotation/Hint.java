@@ -20,37 +20,97 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * <p>
+ * Use the annotation {@code @Hint} to configure your application to use {@code HintExceptionHandler}
+ * when throwing Runtime exceptions.
+ * </p>
+ *
+ * <p>Use options specified by this annotation to configure your final output.</p>
+ *
+ * <p><b>Note: </b>configuration via annotation can be overridden by programmatic API ({@code Hint} static methods)</p>
+ *
+ * @author tahabasri
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Hint {
     // flags
+
+    /**
+     * Shows or hides stacktrace in final output
+     */
     boolean showStackTrace() default false;
 
+    /**
+     * Shows or hides hints messages in final output
+     */
     boolean showHints() default true;
 
     // default messages
+
+    /**
+     * Sets default message for exceptions without custom error message
+     */
     String defaultExceptionMessage() default "Application failed with exception : ";
 
+    /**
+     * Sets default message for notes about documentations
+     */
     String defaultDocsMessage() default "See the docs for details : ";
 
+    /**
+     * Sets default exit code to be used by your program when an uncaught exception gets thrown
+     */
     int defaultExitCode() default 1;
 
-    // http://dplatz.de/blog/2019/emojis-for-java-commandline.html
-
     // prefixes
+
+    /**
+     * Sets default prefix to be used for each line in hints messages
+     *
+     */
     String hintPrefix() default "\u2705 hints:";
 
+    /**
+     * Sets default prefix to be used for each line in error messages
+     *
+     */
     String errorPrefix() default "\u274C error:";
 
+    /**
+     * Sets default prefix to be used for each line in stacktrace
+     *
+     */
     String stackPrefix() default "\u26D4 stack:";
 
+    /**
+     * Sets default prefix to be used for each line in usage messages (docs)
+     *
+     */
     String docsPrefix() default "\u2754 usage:";
 
     // separators
+
+    /**
+     * <p>Sets default separator to be used before showing documentation message.</p>
+     *
+     * <p>By default, documentation is shown as follows:</p>
+     * <pre>
+     * ❔ usage: ---
+     * ❔ usage: See the docs for details : URL
+     * </pre>
+     */
     String defaultDocsSeparator() default "---";
 
+    /**
+     * Sets default separator to be used between each token in final output
+     */
     String defaultSeparator() default "\t";
 
+    /**
+     * Sets your global documentation url, if unset, documentation help message won't show up on your final output
+     */
     // misc
     String docsUrl() default "";
 }

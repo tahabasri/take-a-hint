@@ -17,6 +17,20 @@ package io.hint;
 
 import io.hint.annotation.Hint;
 
+/**
+ * <p>Initialize this class to use Hint custom exceptionHandler {@link HintExceptionHandler}.</p>
+ *
+ * <p>Example of simple initialization :</p>
+ * <pre>
+ *     new HintCommand(new Main()).init();
+ * </pre>
+ *
+ * <p>You can configure your instance using annotation {@link Hint} or programmatic API (static methods)</p>
+ * <p><b>Note : </b>Programmatic API overrides annotation configuration</p>
+ * <br/>
+ * <p>If no explicit configuration is provided,
+ * the new instance uses the default configuration specified with {@link Hint} properties</p>.
+ */
 @Hint
 public class HintCommand {
     // flags
@@ -37,8 +51,29 @@ public class HintCommand {
     // misc
     private String docsUrl;
 
+    /**
+     * <p>Constructs an object of HintCommand based on default settings</p>
+     *
+     * @see #HintCommand(Object)
+     */
+    public HintCommand() {
+        this(null);
+    }
+
+    /**
+     * <p>Constructs an object of HintCommand based on class annotated with HintCommand</p>
+     *
+     * <p><b>Note: </b>If the passed object is {@code null} or not annotated with {@code Hint} annotation,
+     * default settings will be used.</p>
+     *
+     * @param object class annotated with {@code Hint} annotation
+     */
     public HintCommand(Object object) {
-        Hint hint = object.getClass().getAnnotation(Hint.class);
+        // checks if there is an annotation on passed object
+        Hint hint = null;
+        if (object != null) {
+            hint = object.getClass().getAnnotation(Hint.class);
+        }
         // get default annotation values from this class (dummy annotation)
         if (hint == null) {
             hint = this.getClass().getAnnotation(Hint.class);
@@ -58,6 +93,15 @@ public class HintCommand {
         defaultExitCode = hint.defaultExitCode();
     }
 
+    /**
+     * <p>Initialize exception handling by setting a custom {@code uncaughtExceptionHandler} to the main thread.</p>
+     * <p>
+     * This custom exception handler takes care of showing final output for uncaught exceptions using Hint configuration.
+     *
+     * @throws SecurityException if a security manager is present and it
+     *                           denies <tt>{@link RuntimePermission}
+     *                           (&quot;setDefaultUncaughtExceptionHandler&quot;)</tt>
+     */
     public void init() {
         Thread.setDefaultUncaughtExceptionHandler(new HintExceptionHandler(this));
     }
@@ -69,11 +113,26 @@ public class HintCommand {
     }
 
     // flags
+
+    /**
+     * Shows or hides stacktrace in final output
+     *
+     * @param showStackTrace {@code true} if stacktrace should be shown,
+     *                       {@code false} otherwise
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand showStackTrace(boolean showStackTrace) {
         this.showStackTrace = showStackTrace;
         return this;
     }
 
+    /**
+     * Shows or hides hints messages in final output
+     *
+     * @param showHints {@code true} if hints should be shown,
+     *                  {@code false} otherwise
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand showHints(boolean showHints) {
         this.showHints = showHints;
         return this;
@@ -81,54 +140,123 @@ public class HintCommand {
 
     // default messages
 
+    /**
+     * Sets default message for exceptions without custom error message
+     *
+     * @param defaultExceptionMessage default message for exception message
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand defaultExceptionMessage(String defaultExceptionMessage) {
         this.defaultExceptionMessage = getSafeValue(defaultExceptionMessage);
         return this;
     }
 
+    /**
+     * Sets default message for notes about documentations
+     *
+     * @param defaultDocsMessage default message for docs
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand defaultDocsMessage(String defaultDocsMessage) {
         this.defaultDocsMessage = getSafeValue(defaultDocsMessage);
         return this;
     }
 
+    /**
+     * sets default exit code to be used by your program when an uncaught exception gets thrown
+     *
+     * @param defaultExitCode exit code
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand defaultExitCode(int defaultExitCode) {
         this.defaultExitCode = defaultExitCode;
         return this;
     }
 
     // prefixes
+
+    /**
+     * Sets default prefix to be used for each line in hints messages
+     *
+     * @param hintPrefix hints messages prefix
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand hintPrefix(String hintPrefix) {
         this.hintPrefix = getSafeValue(hintPrefix);
         return this;
     }
 
+    /**
+     * Sets default prefix to be used for each line in error messages
+     *
+     * @param errorPrefix error messages prefix
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand errorPrefix(String errorPrefix) {
         this.errorPrefix = getSafeValue(errorPrefix);
         return this;
     }
 
+    /**
+     * Sets default prefix to be used for each line in stacktrace
+     *
+     * @param stackPrefix stacktrace prefix
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand stackPrefix(String stackPrefix) {
         this.stackPrefix = getSafeValue(stackPrefix);
         return this;
     }
 
+    /**
+     * Sets default prefix to be used for each line in usage messages (docs)
+     *
+     * @param docsPrefix docs prefix
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand docsPrefix(String docsPrefix) {
         this.docsPrefix = getSafeValue(docsPrefix);
         return this;
     }
 
     // separators
-    public HintCommand defaultSeparator(String defaultSeparator) {
-        this.defaultSeparator = getSafeValue(defaultSeparator);
-        return this;
-    }
 
+    /**
+     * <p>Sets default separator to be used before showing documentation message.</p>
+     *
+     * <p>By default, documentation is shown as follows:</p>
+     * <pre>
+     * ❔ usage: ---
+     * ❔ usage: See the docs for details : URL
+     * </pre>
+     *
+     * @param defaultDocsSeparator default separator
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand defaultDocsSeparator(String defaultDocsSeparator) {
         this.defaultDocsSeparator = getSafeValue(defaultDocsSeparator);
         return this;
     }
 
+    /**
+     * Sets default separator to be used between each token in final output
+     *
+     * @param defaultSeparator default messages separator
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
+    public HintCommand defaultSeparator(String defaultSeparator) {
+        this.defaultSeparator = getSafeValue(defaultSeparator);
+        return this;
+    }
+
     // misc
+
+    /**
+     * Sets your global documentation url, if unset, documentation help message won't show up on your final output
+     *
+     * @param docsUrl documentation URL
+     * @return this HintCommand instance, to allow configuration chaining.
+     */
     public HintCommand docsUrl(String docsUrl) {
         this.docsUrl = getSafeValue(docsUrl);
         return this;

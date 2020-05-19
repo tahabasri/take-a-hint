@@ -38,6 +38,27 @@ class HintCommonsTest extends HintTest {
     }
 
     @Test
+    void testDefaultBehaviorWithHintDefaultConstructor() {
+        final String errMsg = "Oxygen leak !!!";
+        class Spaceship {
+            private void goToMars() {
+                throw new IllegalStateException(errMsg);
+            }
+        }
+        HintCommand ht = new HintCommand();
+        try {
+            new Spaceship().goToMars();
+        } catch (IllegalStateException ex) {
+            final String expectedMsg = "\n" + ht.getErrorPrefix()
+                    + ht.getDefaultSeparator()
+                    + ht.getDefaultExceptionMessage()
+                    + ex.getMessage() + "\n";
+            handleException(ht, ex);
+            assertEquals(expectedMsg, errContent.toString());
+        }
+    }
+
+    @Test
     void testDefaultBehaviorWithHint() {
         final String errMsg = "Oxygen leak !!!";
         class Spaceship {

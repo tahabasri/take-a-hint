@@ -15,7 +15,17 @@
  */
 package io.hint.exception;
 
+/**
+ * Global interface for all throwable used by Hint, gives final program possibility to use custom objects
+ * (e.g hint message and custom error message).
+ */
 public interface HintThrowable {
+    /**
+     * @return hints messages string
+     */
     String getHintsMsg();
+    /**
+     * @return custom error messages string
+     */
     String getCustomErrorMsg();
 }
