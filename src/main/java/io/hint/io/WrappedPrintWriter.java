@@ -1,6 +1,5 @@
 package io.hint.io;
 
-import java.io.PrintStream;
 import java.io.PrintWriter;
 
 public class WrappedPrintWriter extends WrappedPrinter {
