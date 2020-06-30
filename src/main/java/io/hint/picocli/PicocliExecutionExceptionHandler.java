@@ -4,10 +4,10 @@ import io.hint.HintCommand;
 import io.hint.HintExceptionHandler;
 import picocli.CommandLine;
 
-public class PicocliExceptionHandler implements CommandLine.IExecutionExceptionHandler {
+public class PicocliExecutionExceptionHandler implements CommandLine.IExecutionExceptionHandler {
     private HintCommand ht;
 
-    public PicocliExceptionHandler(HintCommand ht) {
+    public PicocliExecutionExceptionHandler(HintCommand ht) {
         this.ht = ht;
     }
 
