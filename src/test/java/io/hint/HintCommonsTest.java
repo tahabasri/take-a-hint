@@ -46,9 +46,10 @@ class HintCommonsTest extends HintTest {
         WrappedPrintWriter outPrinter = new WrappedPrintWriter("", "",
                 new PrintWriter(System.err, true));
         String msg = "here";
+        outPrinter.println();
         outPrinter.println(msg);
         Assumptions.assumeTrue(outPrinter.getWrappingPrintWriter()!=null);
-        assertEquals(msg + "\n", errContent.toString());
+        assertEquals("\n" + msg + "\n", errContent.toString());
     }
 
     @Test
