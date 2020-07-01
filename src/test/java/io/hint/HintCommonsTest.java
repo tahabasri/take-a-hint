@@ -46,9 +46,29 @@ class HintCommonsTest extends HintTest {
         WrappedPrintWriter outPrinter = new WrappedPrintWriter("", "",
                 new PrintWriter(System.err, true));
         String msg = "here";
+        outPrinter.println();
         outPrinter.println(msg);
-        Assumptions.assumeTrue(outPrinter.getWrappingPrintWriter()!=null);
-        assertEquals(msg + "\n", errContent.toString());
+        Assumptions.assumeTrue(outPrinter.getWrappingPrintWriter() != null);
+        assertEquals("\n" + msg + "\n", errContent.toString());
+    }
+
+    @Test
+    void testWrappingPrintWriter() {
+        class Spaceship {
+            private void goToMars() {
+                throw new IllegalStateException();
+            }
+        }
+        try {
+            new Spaceship().goToMars();
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace(
+                    new WrappedPrintWriter("", "",
+                            new PrintWriter(System.err, true))
+                            .getWrappingPrintWriter());
+            // this won't show on console
+            assertTrue(errContent.toString().isEmpty());
+        }
     }
 
     @Test

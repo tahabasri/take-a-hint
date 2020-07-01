@@ -32,7 +32,28 @@ public class HintPicocliTest extends HintTest {
     }
 
     @Test
-    void testExceptionHandler() {
+    void testParameterExceptionHandlerWithExitCodeHandler() {
+        @CommandLine.Command
+        class Spaceship implements Runnable {
+            @Override
+            public void run() {
+
+            }
+        }
+        Spaceship spaceShip = new Spaceship();
+        CommandLine cmd = new CommandLine(spaceShip);
+        HintCommand ht = new HintCommand(spaceShip);
+        cmd.setExitCodeExceptionMapper(exception -> 0);
+        cmd.setParameterExceptionHandler(new PicocliParameterExceptionHandler(ht));
+        cmd.execute("unwantedParam");
+
+        String expectedMsg = "\n" + ht.getErrorPrefix()
+                + ht.getDefaultSeparator() + ht.getDefaultExceptionMessage() + "Unmatched argument at index";
+        assertTrue(errContent.toString().startsWith(expectedMsg));
+    }
+
+    @Test
+    void testExecutionExceptionHandler() {
         final String errMsg = "Oxygen leak !!!";
         @CommandLine.Command
         class Spaceship implements Runnable {
@@ -44,6 +65,29 @@ public class HintPicocliTest extends HintTest {
         Spaceship spaceShip = new Spaceship();
         CommandLine cmd = new CommandLine(spaceShip);
         HintCommand ht = new HintCommand(spaceShip);
+        cmd.setExecutionExceptionHandler(new PicocliExecutionExceptionHandler(ht));
+        cmd.execute();
+
+        System.out.println(errContent.toString());
+        String expectedMsg = "\n" + ht.getErrorPrefix()
+                + ht.getDefaultSeparator() + ht.getDefaultExceptionMessage() + errMsg;
+        assertTrue(errContent.toString().startsWith(expectedMsg));
+    }
+
+    @Test
+    void testExecutionExceptionHandlerWithExitCodeHandler() {
+        final String errMsg = "Oxygen leak !!!";
+        @CommandLine.Command
+        class Spaceship implements Runnable {
+            @Override
+            public void run() {
+                throw new IllegalStateException(errMsg);
+            }
+        }
+        Spaceship spaceShip = new Spaceship();
+        CommandLine cmd = new CommandLine(spaceShip);
+        HintCommand ht = new HintCommand(spaceShip);
+        cmd.setExitCodeExceptionMapper(exception -> 0);
         cmd.setExecutionExceptionHandler(new PicocliExecutionExceptionHandler(ht));
         cmd.execute();
 
