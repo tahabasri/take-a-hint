@@ -16,7 +16,11 @@
 package io.hint;
 
 import io.hint.exception.HintRuntimeException;
+import io.hint.io.WrappedPrintWriter;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
+
+import java.io.PrintWriter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +39,16 @@ class HintCommonsTest extends HintTest {
         } catch (IllegalStateException ex) {
             assertEquals(errMsg, ex.getMessage());
         }
+    }
+
+    @Test
+    void testWrappedPrintWriter() {
+        WrappedPrintWriter outPrinter = new WrappedPrintWriter("", "",
+                new PrintWriter(System.err, true));
+        String msg = "here";
+        outPrinter.println(msg);
+        Assumptions.assumeTrue(outPrinter.getWrappingPrintWriter()!=null);
+        assertEquals(msg + "\n", errContent.toString());
     }
 
     @Test
@@ -105,7 +119,8 @@ class HintCommonsTest extends HintTest {
 
     @Test
     void getSafeValue() {
-        class Spaceship{}
+        class Spaceship {
+        }
         HintCommand ht = new HintCommand(new Spaceship()).defaultSeparator(null);
         assertNotNull(ht.getDefaultSeparator());
     }

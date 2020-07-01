@@ -50,7 +50,50 @@ Executing the same program again, we get a new look for our error message.
 
 Going further more with Hint options, your final error message can be improved to something like this:
 
-<img src="docs/images/demo.hint.after.extra.png" width="700">
+<img src="docs/images/demo.hint.after.extra.png" width="750">
+
+### Use with Picocli
+
+[Picocli](https://picocli.info/) is a one-file framework for creating Java command line applications with almost zero code.
+
+In order to add take-a-hint features to your Picocli application, you need to use Hint custom handlers.
+```java
+@CommandLine.Command
+@Hint // this is optional
+public class PicocliWithHint implements Runnable {
+
+    @CommandLine.Parameters
+    int apiRating;
+
+    public static void main(String[] args) {
+        PicocliWithHint picocliWithHint = new PicocliWithHint();
+        CommandLine cmd = new CommandLine(picocliWithHint);
+        HintCommand hintCmd = new HintCommand(picocliWithHint);
+        // add custom handler for parameter exceptions
+        cmd.setParameterExceptionHandler(new PicocliParameterExceptionHandler(hintCmd));
+        // add custom handler for all other exceptions
+        cmd.setExecutionExceptionHandler(new PicocliExecutionExceptionHandler(hintCmd));
+        System.exit(cmd.execute(args));
+    }
+
+    @Override
+    public void run() {
+        if (apiRating < 3) {
+            throw new RuntimeException("Not cool !");
+        }
+    }
+}
+```
+
+After wiring Hint with Picocli, exceptions will be shown with Hint style.
+
+- When running CLI without required parameter `apiRating`, we get:
+
+<img src="docs/images/demo.picocli.noparam.png" width="600">
+
+- When running CLI with incompatible parameter for `apiRating`, we get:
+
+<img src="docs/images/demo.picocli.wrongparam.png" width="900">
 
 ### How to use your own Emoji characters in your Java command-line application
 
