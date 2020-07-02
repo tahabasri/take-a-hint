@@ -57,9 +57,9 @@ You can customize your final look further more and obtain something like:
 
 take-a-hint comes with pre-defined look-and-feel for your Java error messages. Still, you can -and should- customize final messages depending on your needs.
 
-take-a-hint offers a set of components you can customize in code to configure final error messages.
+take-a-hint offers a set of properties you can customize in code to configure final error messages.
 
-| Component                 | Default value                         | Description |
+| Property                 | Default value                         | Description |
 | ---------                 | -------------                         | ----------- |
 | showStackTrace            | false                                 | shows or hides stacktrace in final output |
 | showHints                 | true                                  | shows or hides hints messages in final output |
@@ -67,11 +67,11 @@ take-a-hint offers a set of components you can customize in code to configure fi
 | defaultDocsMessage        | 'See the docs for details : '           | default message for notes about documentations |
 | defaultExitCode           | 1                                     | default exit code to be used by your program when an uncaught exception gets thrown |
 | hintPrefix                | '✅ hints:'                             | default prefix to be used for each line in hints messages |
-| errorPrefix               | '❌ error:'                             | sets default prefix to be used for each line in error messages |
+| errorPrefix               | '❌ error:'                             | default prefix to be used for each line in error messages |
 | stackPrefix               | '⛔ stack:'                             | default prefix to be used for each line in stacktrace |
 | docsPrefix                | ❔ usage:                             | default prefix to be used for each line in usage messages (docs) |
 | defaultDocsSeparator      | '---'                                   | default separator to be used before showing documentation message |
-| defaultSeparator          | \t                                    | default separator to be used between each token in final output |
+| defaultSeparator          | \t                                    | default separator to be used between each token in final output (e.g between error prefix and message) |
 | docsUrl                   |                                       | global documentation url, if unset, documentation help message won't show up on your final output |
 
 In order to configure how error messages appear, you can use following options:
@@ -152,25 +152,25 @@ After wiring take-a-hint with Picocli, exceptions will be shown with Hint style.
 
 take-a-hint comes with pre-defined messages with a set of Emojis, you can change yours via the configuration:
 
-- via annotations, you can set your default prefix for error messages :
-```java
-@Hint(errorPrefix = "\u26D4 error :")
-class Spaceship{
-    new HintCommand(new Spaceship()).init();
-}
-```
-
-Your final message will be 
-```
-⛔ error :   Spaceship is no longer a ship!
-```
-
-- via programmatic API, you can achieve the same result via the following method:
+- via programmatic API, you can set your default prefix for error messages like this :
 ```java
 class Spaceship{
     public static void main(String[] args){
       new HintCommand(new Spaceship()).errorPrefix("\u26D4 error :").init();
     }
+}
+```
+
+Your final message will be :
+```
+⛔ error :   Spaceship is no longer a ship!
+```
+
+- via annotations, you can achieve the same result via the following method :
+```java
+@Hint(errorPrefix = "\u26D4 error :")
+class Spaceship{
+    new HintCommand(new Spaceship()).init();
 }
 ```
 
