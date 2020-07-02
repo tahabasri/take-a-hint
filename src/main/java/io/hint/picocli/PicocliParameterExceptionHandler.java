@@ -6,7 +6,7 @@ import picocli.CommandLine;
 import java.io.PrintWriter;
 
 public class PicocliParameterExceptionHandler implements CommandLine.IParameterExceptionHandler {
-    private HintCommand ht;
+    private final HintCommand ht;
 
     public PicocliParameterExceptionHandler(HintCommand ht) {
         this.ht = ht;

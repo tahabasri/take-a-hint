@@ -1,8 +1,5 @@
 package io.hint.io;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-
 /**
  * Wrapper of default PrintStream or PrintWriter, to be used for setting a prefix before each line in stacktrace
  */

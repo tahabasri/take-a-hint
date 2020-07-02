@@ -5,7 +5,7 @@ import io.hint.HintExceptionHandler;
 import picocli.CommandLine;
 
 public class PicocliExecutionExceptionHandler implements CommandLine.IExecutionExceptionHandler {
-    private HintCommand ht;
+    private final HintCommand ht;
 
     public PicocliExecutionExceptionHandler(HintCommand ht) {
         this.ht = ht;
