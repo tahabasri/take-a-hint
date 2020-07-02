@@ -63,3 +63,5 @@ In Maven, you can use one of the options bellow:
     </dependency>
 </dependencies>
 ```
+
+That's it, once done, you can generate native-image like [you usually do](https://www.graalvm.org/docs/reference-manual/native-image/).
