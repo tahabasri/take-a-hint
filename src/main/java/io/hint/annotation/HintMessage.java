@@ -55,6 +55,8 @@ import java.lang.annotation.Target;
 public @interface HintMessage {
     /**
      * Sets default message to show for each exception thrown at the annotated element.
+     *
+     * @return default exception message
      */
     String value() default "";
 }

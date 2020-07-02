@@ -27,7 +27,7 @@ import io.hint.annotation.Hint;
  *
  * <p>You can configure your instance using annotation {@link Hint} or programmatic API (static methods)</p>
  * <p><b>Note : </b>Programmatic API overrides annotation configuration</p>
- * <br/>
+ *
  * <p>If no explicit configuration is provided,
  * the new instance uses the default configuration specified with {@link Hint} properties</p>.
  */

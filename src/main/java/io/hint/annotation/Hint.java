@@ -39,11 +39,15 @@ public @interface Hint {
 
     /**
      * Shows or hides stacktrace in final output
+     *
+     * @return show stacktrace
      */
     boolean showStackTrace() default false;
 
     /**
      * Shows or hides hints messages in final output
+     *
+     * @return hints
      */
     boolean showHints() default true;
 
@@ -51,16 +55,22 @@ public @interface Hint {
 
     /**
      * Sets default message for exceptions without custom error message
+     *
+     * @return default exception message
      */
     String defaultExceptionMessage() default "Application failed with exception : ";
 
     /**
      * Sets default message for notes about documentations
+     *
+     * @return default docs message
      */
     String defaultDocsMessage() default "See the docs for details : ";
 
     /**
      * Sets default exit code to be used by your program when an uncaught exception gets thrown
+     *
+     * @return default exit code
      */
     int defaultExitCode() default 1;
 
@@ -69,24 +79,28 @@ public @interface Hint {
     /**
      * Sets default prefix to be used for each line in hints messages
      *
+     * @return hint prefix
      */
     String hintPrefix() default "\u2705 hints:";
 
     /**
      * Sets default prefix to be used for each line in error messages
      *
+     * @return error prefix
      */
     String errorPrefix() default "\u274C error:";
 
     /**
      * Sets default prefix to be used for each line in stacktrace
      *
+     * @return stack prefix
      */
     String stackPrefix() default "\u26D4 stack:";
 
     /**
      * Sets default prefix to be used for each line in usage messages (docs)
      *
+     * @return docs prefix
      */
     String docsPrefix() default "\u2754 usage:";
 
@@ -100,16 +114,22 @@ public @interface Hint {
      * ❔ usage: ---
      * ❔ usage: See the docs for details : URL
      * </pre>
+     *
+     * @return default docs separator
      */
     String defaultDocsSeparator() default "---";
 
     /**
      * Sets default separator to be used between each token in final output
+     *
+     * @return default separator
      */
     String defaultSeparator() default "\t";
 
     /**
      * Sets your global documentation url, if unset, documentation help message won't show up on your final output
+     *
+     * @return docs URL
      */
     // misc
     String docsUrl() default "";

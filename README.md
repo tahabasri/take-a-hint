@@ -105,6 +105,86 @@ class Spaceship{
 
 When mixing annotation and programmatic API, take-a-hint will opt for configuration by programmatic API.
 
+### Provide easy hints for final users
+
+It's much better when the final user can get hints on how to fix errors at failure time. take-a-hint offers custom Exception classes to help you communicate hints easily.
+
+If you have already a code block that throws an exception, you can wrap it inside `HintException` or `HintRuntimeException`. This will let you personalize final error messages depending on your needs. Here are some examples:
+
+```java
+class Spaceship {
+    private void goToMars() {
+        throw HintRuntimeException.of(
+            new IllegalStateException("Oxygen leak !!!"), // this is your regular exception
+            "Check your equipments !" // you can set a custom hint message to be shown to final user
+        );
+    }
+}
+```
+
+When the error gets thrown, the final user will get the following message (depending on configuration):
+
+```
+❌ error:	Application failed with exception : java.lang.IllegalStateException: Oxygen leak !!!
+
+✅ hints:	Check your equipments !
+```
+
+You can work with checked exceptions while using take-a-hint via the custom exception class `HintException` :
+
+```java
+class Spaceship {
+    private void goToMars() throws HintException {
+        throw HintException.of(new IllegalStateException("Oxygen leak !!!"), "Check your equipments !");
+    }
+}
+// ...
+try {
+    new Spaceship().goToMars();
+} catch (HintException ex) { // HintException is a checked exception, should be thrown
+    System.out.println("Custom error : " + ex.getHintsMsg()); // use exception instance as you want
+}
+
+```
+
+Another cool thing you can do with take-a-hint is set a global hint message for method or class. Let's say you have a method that may throw an exception in multiple occasions, and you want to provide a single hint message for the whole method. Then, you can use the annotation `@HintMessage` to do that.
+
+```java
+@Hint
+class Spaceship {
+    @HintMessage("Check your equipments")
+    private void goToMars(int x) {
+        if(x==-1){
+            throw new IllegalStateException("Crash !");
+        }else if(x==0){
+            throw new IllegalStateException("Boom !");
+        }else{
+            // go
+        }
+    }
+}
+```
+
+For each exception thrown within the method `goToMars`, take-a-hint will display (depending on the configuration) the custom hint message provided by the annotation `@HintMessage`.
+
+You can use the same annotation with the parent class. In that case, the provided message in the class will be shown whenever an exception gets thrown within a method of that class. Each method with its own annotation will override the class custom message.
+
+```java
+@Hint
+@HintMessage("Check your equipments !")
+class Spaceship {
+    @HintMessage("What about heat ?") // this message will override the one in parent class
+    private void goToTheSun(int x) {
+        throw new IllegalStateException("Burned !");
+    }
+
+    // will use parent message
+    private void goToMars() {
+        throw new IllegalStateException("Boom !");
+    }
+}
+```
+
 ### Use with Picocli
 
 [Picocli](https://picocli.info/) is a one-file framework for creating Java command line applications with almost zero code.
